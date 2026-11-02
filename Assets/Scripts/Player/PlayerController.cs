@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(BoxCollider2D))]
-[RequireComponent(typeof(Animator), typeof(GroundCheck))]
+[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     #region Tunable Parameters
@@ -10,12 +10,23 @@ public class PlayerController : MonoBehaviour
     public int maxJumps = 2;
     #endregion
 
+    #region Ground Check
+    //public Transform groundCheckPos;
+    public LayerMask groundLayer;
+    public float groundCheckRadius = 0.2f;
+    private bool isGrounded;
+    private Vector2 CalculateGroundCheckPos()
+    {
+        Bounds bounds = bc.bounds;
+        return new Vector2(bounds.center.x, bounds.min.y);
+    }
+    #endregion
+
     #region Component References
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private BoxCollider2D bc;
     private Animator anim;
-    private GroundCheck gndChk;
     #endregion
 
     #region Properties
@@ -30,22 +41,22 @@ public class PlayerController : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
 
-        gndChk = GetComponent<GroundCheck>();
-        gndChk.Init(bc, rb);
-
         rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
 
     // Update is called once per frame
     void Update()
     {
-        gndChk.CheckGround();
-        
+        // Check if the player is grounded only when falling or stationary
+        if (rb.linearVelocityY <= 0f)
+        {
+            isGrounded = Physics2D.OverlapCircle(CalculateGroundCheckPos(), groundCheckRadius, groundLayer);
+        }
+
         //collect inputs for current frame
         //bool upPressed = Input.GetAxisRaw("Vertical") > 0f;
         float moveX = Input.GetAxisRaw("Horizontal");
         bool jumpPresssed = Input.GetButtonDown("Jump");
-        bool fireInput = Input.GetButtonDown("Fire1");
 
 
         //apply mechanics based on inputs
@@ -54,23 +65,18 @@ public class PlayerController : MonoBehaviour
         if (jumpPresssed && currentJumps < maxJumps)
         {
             currentJumps++;
-            gndChk.SetGroundAfterJump();
+            isGrounded = false;
             rb.linearVelocityY = 0f;
             rb.AddForceY(jumpForce, ForceMode2D.Impulse);
         }
 
-
-
         if (moveX != 0f) SpriteFlip(moveX);
-        if (gndChk.isGrounded) currentJumps = 0;
+        if (isGrounded) currentJumps = 0;
 
         // Update animator parameters
-        anim.SetBool("isGrounded", gndChk.isGrounded);
+        anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("moveX", Mathf.Abs(moveX));
-        if (fireInput)
-        {
-            anim.SetTrigger("attack");
-        }
+
     }
 
     void SpriteFlip(float moveX) => sr.flipX = (moveX < 0f);
