@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8120980072788475622}
   - component: {fileID: -4578874877659746447}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: PlayerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   lifetime: 5
-  initVelocity: {x: 1, y: 5}
+  initVelocity: {x: 0, y: 0}
 --- !u!58 &-4578874877659746447
 CircleCollider2D:
   m_ObjectHideFlags: 0

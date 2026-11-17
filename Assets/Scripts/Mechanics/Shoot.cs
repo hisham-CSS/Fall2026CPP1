@@ -9,6 +9,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] private Transform spawnPointRight;
     [SerializeField] private Projectile projectilePrefab;
 
+    private Vector2 leftShotVelocity;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,6 +26,8 @@ public class Shoot : MonoBehaviour
         {
             Debug.LogError("Shoot: one or more spawn points or projectile prefab is not assigned - in order to use the shoot component - it has to be assigned");
         }
+
+        leftShotVelocity = new Vector2(-initShotVelocity.x, initShotVelocity.y);
     }
 
     // Update is called once per frame
@@ -45,7 +49,7 @@ public class Shoot : MonoBehaviour
         else
         {
             curProjectile = Instantiate(projectilePrefab, spawnPointLeft.position, Quaternion.identity);
-            curProjectile.SetVelocity(initShotVelocity);
+            curProjectile.SetVelocity(leftShotVelocity);
         }    
     }
 }
