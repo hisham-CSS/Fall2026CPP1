@@ -25,7 +25,7 @@ public class WalkerEnemy : BaseEnemy
             //else rb.linearVelocityX = xVel;
 
             //Ternary operator allows us to write the above if/else statement in one line
-            //if we have a simple if/else statement that assigns a value to a variable, we can use the ternary operator
+            //if we have a simple 
             rb.linearVelocityX = sr.flipX ? -xVel : xVel;
         }
     }
