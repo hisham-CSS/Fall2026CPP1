@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
@@ -10,6 +11,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] private Projectile projectilePrefab;
 
     private Vector2 leftShotVelocity;
+
+    public Action<Vector2> OnShotFired; // Event to notify when a shot is fired
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,12 +47,14 @@ public class Shoot : MonoBehaviour
         if (!sr.flipX)
         {
             curProjectile = Instantiate(projectilePrefab, spawnPointRight.position, Quaternion.identity);
-            curProjectile.SetVelocity(initShotVelocity);
+            curProjectile.SetVelocity(initShotVelocity); 
+            OnShotFired?.Invoke(initShotVelocity); // Notify subscribers that a shot has been fired
         }
         else
         {
             curProjectile = Instantiate(projectilePrefab, spawnPointLeft.position, Quaternion.identity);
             curProjectile.SetVelocity(leftShotVelocity);
+            OnShotFired?.Invoke(leftShotVelocity); // Notify subscribers that a shot has been fired
         }    
     }
 }

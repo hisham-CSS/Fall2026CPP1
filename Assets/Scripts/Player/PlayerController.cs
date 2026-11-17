@@ -103,6 +103,8 @@ public class PlayerController : MonoBehaviour
     private Coroutine jumpForceCoroutine = null;
     #endregion
 
+    Shoot shoot;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -111,16 +113,23 @@ public class PlayerController : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
 
+        shoot = GetComponent<Shoot>();
+
         gndChk = GetComponent<GroundCheck>();
         gndChk.Init(bc, rb);
 
         rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        shoot.OnShotFired += (velocity) =>
+        {
+            isDashing = true;
+            rb.gravityScale = 0f;
+            rb.AddForceX(-velocity.x, ForceMode2D.Impulse);
+        }; // Apply recoil force when a shot is fired
     }
 
     // Update is called once per frame
     void Update()
     {
-
         gndChk.CheckGround();
 
         //collect inputs for current frame
