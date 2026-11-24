@@ -8,10 +8,11 @@ public class Life : Pickup
 
     public override void OnPlayerPickup(PlayerController interactor)
     {
-        if (interactor != null)
-        {
-            interactor.lives += lifeAmount;
-        }
+        //if (interactor != null)
+        //{
+        //    interactor.lives += lifeAmount;
+        //}
+        GameManager.Instance.lives++;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

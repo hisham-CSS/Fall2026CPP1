@@ -22,7 +22,7 @@ public class TurretEnemy : BaseEnemy
             Debug.LogWarning("TurretEnemy: Fire rate not defined - setting to a default of 1 second");
         }
 
-        shoot.OnShotFired += (velocity) => timeSinceLastShot = 0.0f; // Subscribe to the OnShotFired event
+        shoot.OnShotFired += (velocity) => timeSinceLastShot = 0.0f;// Subscribe to the OnShotFired event
     }
 
     // Update is called once per frame
