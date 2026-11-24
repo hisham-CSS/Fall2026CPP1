@@ -22,13 +22,7 @@ public class cameraFollow : MonoBehaviour
     {
         if (target == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player == null)
-            {
-                Debug.LogError("No Target assigned as player. Please include valid reference in the camera follow script");
-                return;
-            }
-            target = player.transform;
+            TryGetPlayerInstance();
         } 
     }
 
@@ -42,6 +36,7 @@ public class cameraFollow : MonoBehaviour
     {
         if (target == null) //this is an exit condition if object need to be run doesn't exist.
         {
+            TryGetPlayerInstance();
             return;
         }
         
@@ -54,5 +49,16 @@ public class cameraFollow : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, currentPos, cameraSpeed * Time.deltaTime);
 
         
+    }
+
+    void TryGetPlayerInstance()
+    {
+        PlayerController player = GameManager.Instance.PlayerInstance;
+        if (player == null)
+        {
+            Debug.LogError("No Target assigned as player. Please include valid reference in the camera follow script");
+            return;
+        }
+        target = player.transform;
     }
 }
