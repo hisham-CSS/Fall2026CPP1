@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public int maxJumps = 2;
-    public int maxLives = 9;
+    //public int maxLives = 9;
     public float initialPowerupDuration = 5f;
     public float jumpForcePowerup = 10;
     public float dashDistance = 5f;
@@ -51,45 +51,45 @@ public class PlayerController : MonoBehaviour
     //if lives is greater than maxLives, set it to maxLives
     //if lives is less than 0, set it to 0 - and go to game over
    
-    private int _lives = 3;
-    public int lives
-    {
-        get { return _lives; }
-        set
-        {
-            if (value >= maxLives)
-            {
-                _lives = maxLives;
-            }
-            else if (value < 0)
-            {
-                _lives = 0;
-                //go to game over
-            }
-            else if (_lives > value)
-            {
-                _lives = value;
-                //respawn player
-            }
-            else
-            {
-                _lives = value;
-            }
+    //private int _lives = 3;
+    //public int lives
+    //{
+    //    get { return _lives; }
+    //    set
+    //    {
+    //        if (value >= maxLives)
+    //        {
+    //            _lives = maxLives;
+    //        }
+    //        else if (value < 0)
+    //        {
+    //            _lives = 0;
+    //            //go to game over
+    //        }
+    //        else if (_lives > value)
+    //        {
+    //            _lives = value;
+    //            //respawn player
+    //        }
+    //        else
+    //        {
+    //            _lives = value;
+    //        }
 
-            Debug.Log($"Lives have changed to {_lives}");
-        }
-    }
+    //        Debug.Log($"Lives have changed to {_lives}");
+    //    }
+    //}
 
-    private int _score = 0;
-    public int score
-    {
-        get { return _score; }
-        set
-        {
-            value = Mathf.Max(0, value);
-            _score = value;
-        }
-    }
+    //private int _score = 0;
+    //public int score
+    //{
+    //    get { return _score; }
+    //    set
+    //    {
+    //        value = Mathf.Max(0, value);
+    //        _score = value;
+    //    }
+    //}
     #endregion
 
     #region Properties
